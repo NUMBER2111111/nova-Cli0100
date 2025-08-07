@@ -4,11 +4,16 @@
 // Instant dev app bootstrapper (React + Vite + Firebase-ready)
 // Powered by Nova — now with zero bloat
 
-const fs = require('fs');
-const { execSync } = require('child_process');
-const path = require('path');
-const inquirer = require('inquirer');
-const chalk = require('chalk');
+import fs from 'fs';
+import { execSync } from 'child_process';
+import path from 'path';
+import inquirer from 'inquirer';
+import chalk from 'chalk';
+
+// ESM __dirname and __filename workaround
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 (async () => {
   console.log(chalk.cyan(`\nAppMate CLI v0.3.0 — Your instant launch system`));
@@ -35,6 +40,18 @@ const chalk = require('chalk');
     process.exit(1);
   }
 
+  // Nova lines for each preset
+  const novaLines = {
+    'Vanilla + Vite': `Creamy? Bold choice. Let's roll.`,
+    'React + Vite': `React, huh? Nova's watching.`,
+    'Vue + Vite': `Vue it is. Spicy.`,
+    'Astro': `To the stars we go.`,
+    'Next.js': `Next.js? Modern moves.`
+  };
+  if (novaLines[preset]) {
+    console.log(chalk.cyan(`\nNova: "${novaLines[preset]}"\n`));
+  }
+
   console.log(chalk.green(`\nCreating ${preset} app at ${appDir}`));
   fs.mkdirSync(appDir);
   process.chdir(appDir);
@@ -55,6 +72,8 @@ export default defineConfig({
   resolve: { alias: { '@': '/src' } }
 });`
     );
+  } else if (preset === 'Vanilla + Vite') {
+    execSync(`npm create vite@latest ${appName} -- --template vanilla`, { stdio: 'inherit' });
   }
 
   const firebaseConfig = `// Replace with your Firebase config
@@ -98,7 +117,16 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   fs.writeFileSync('src/main.jsx', mainJsx);
 
   console.log(chalk.green(`\nSuccess. App ready.`));
-  console.log(chalk.yellow(`\nNext steps:`));
-  console.log(chalk.white(`   cd ${appName}`));
-  console.log(chalk.white(`   npm run dev`));
+  console.log(chalk.yellow(`\nCliNova: Go-Time Steps`));
+  console.log(chalk.white(`cd ${appName}`));
+  console.log(chalk.white(`npm run dev`));
+
+  // Git push instructions
+  console.log(chalk.yellow(`\nGit Push Commands:`));
+  console.log(chalk.white(`git init`));
+  console.log(chalk.white(`git add .`));
+  console.log(chalk.white(`git commit -m \"🔥 AppMate CLI v0.3.0 — Initial release\"`));
+  console.log(chalk.white(`git branch -M main`));
+  console.log(chalk.white(`git remote add origin https://github.com/NUMBER2111111/nova-ultimate-.git`));
+  console.log(chalk.white(`git push -u origin main`));
 })();
