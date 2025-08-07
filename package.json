@@ -1,0 +1,17 @@
+{
+  "name": "appmate-cli",
+  "version": "0.3.0",
+  "description": "Instant React+Firebase app launcher CLI, powered by Nova.",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "appmate": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.7"
+  }
+}
